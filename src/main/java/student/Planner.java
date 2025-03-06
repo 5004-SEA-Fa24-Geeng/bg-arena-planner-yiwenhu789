@@ -110,6 +110,7 @@ public class Planner implements IPlanner {
             return filteredGames;
         }
 
+        System.out.println("Checking if \"" + column + "\" contains \"" + parts[1] + "\"");
         String value = parts[1].trim();
 
         return filteredGames.filter(game -> applyFilter(game, column, operator, value));
@@ -123,20 +124,20 @@ public class Planner implements IPlanner {
         try {
             // Handle Name Case
             if (column == GameData.NAME) {
-                System.out.println("Name testing " + value);
+                String gameName = game.getName().trim().toLowerCase();
+                String filterValue = value.trim().toLowerCase();
+
+                System.out.println("Checking if \"" + gameName + "\" contains \"" + filterValue + "\"");
+
                 if (operator == Operations.CONTAINS) {
-                    System.out.println("Contains testing " + game.getName());
-                    // Only applies to string-based NAME filter
-                    return game.getName().trim().toLowerCase().contains(value.toLowerCase());
+                    return gameName.contains(filterValue);
                 }
 
                 if (operator == Operations.EQUALS) {
-                    System.out.println("Equals testing " + game.getName());
-                    return game.getName().trim().toLowerCase().equals(value.toLowerCase());
+                    return gameName.equals(filterValue);
                 }
 
-                // Ignore contains operation for non-string fields
-                return true;
+                return true; // Ignore invalid operations for strings
             }
 
             // HANDLE NUMERIC COMPARISONS (==, !=, >, <, >=, <=)
