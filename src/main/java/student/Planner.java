@@ -55,7 +55,6 @@ public class Planner implements IPlanner {
         // Sort
         List<BoardGame> sortedList = new ArrayList<>(filteredSet);
 
-        // **Apply sorting based on GameData column**
         if (sortOn != null) {
             sortedList.sort((game1, game2) -> {
                 int comparison = compareGames(game1, game2, sortOn);

@@ -87,10 +87,10 @@ class PlannerTest {
         Stream<BoardGame> result = planner.filter("", GameData.YEAR, true);
         BoardGame[] sortedGames = result.toArray(BoardGame[]::new);
 
-        assertEquals("Chess", sortedGames[0].getName());
-        assertEquals("Catan", sortedGames[1].getName());
-        assertEquals("Pandemic", sortedGames[2].getName());
-        assertEquals("Terraforming Mars", sortedGames[3].getName());
+        assertEquals("Chess", sortedGames[0].getName()); // 1500
+        assertEquals("Catan", sortedGames[1].getName()); // 1995
+        assertEquals("Pandemic", sortedGames[2].getName()); // 2008
+        assertEquals("Terraforming Mars", sortedGames[3].getName()); // 2016
     }
 
     @Test
@@ -98,10 +98,10 @@ class PlannerTest {
         Stream<BoardGame> result = planner.filter("", GameData.YEAR, false);
         BoardGame[] sortedGames = result.toArray(BoardGame[]::new);
 
-        assertEquals("Terraforming Mars", sortedGames[0].getName());
-        assertEquals("Pandemic", sortedGames[1].getName());
-        assertEquals("Catan", sortedGames[2].getName());
-        assertEquals("Chess", sortedGames[3].getName());
+        assertEquals("Terraforming Mars", sortedGames[0].getName()); // 2016
+        assertEquals("Pandemic", sortedGames[1].getName()); // 2008
+        assertEquals("Catan", sortedGames[2].getName()); // 1995
+        assertEquals("Chess", sortedGames[3].getName()); // 1500
     }
 
     @Test
@@ -109,10 +109,10 @@ class PlannerTest {
         Stream<BoardGame> result = planner.filter("", GameData.DIFFICULTY, true);
         BoardGame[] sortedGames = result.toArray(BoardGame[]::new);
 
-        assertEquals("Catan", sortedGames[0].getName());
-        assertEquals("Pandemic", sortedGames[1].getName());
-        assertEquals("Terraforming Mars", sortedGames[2].getName());
-        assertEquals("Chess", sortedGames[3].getName());
+        assertEquals("Catan", sortedGames[0].getName()); // 2.5
+        assertEquals("Pandemic", sortedGames[1].getName()); // 2.8
+        assertEquals("Terraforming Mars", sortedGames[2].getName()); // 3.2
+        assertEquals("Chess", sortedGames[3].getName()); // 3.8
     }
 
     @Test
@@ -120,10 +120,10 @@ class PlannerTest {
         Stream<BoardGame> result = planner.filter("", GameData.DIFFICULTY, false);
         BoardGame[] sortedGames = result.toArray(BoardGame[]::new);
 
-        assertEquals("Chess", sortedGames[0].getName());
-        assertEquals("Terraforming Mars", sortedGames[1].getName());
-        assertEquals("Pandemic", sortedGames[2].getName());
-        assertEquals("Catan", sortedGames[3].getName());
+        assertEquals("Chess", sortedGames[0].getName()); // 3.8
+        assertEquals("Terraforming Mars", sortedGames[1].getName()); // 3.2
+        assertEquals("Pandemic", sortedGames[2].getName()); // 2.8
+        assertEquals("Catan", sortedGames[3].getName()); // 2.5
     }
 
 
@@ -136,5 +136,4 @@ class PlannerTest {
 
         assertEquals(planner.getFilteredGames().size(), 4);
     }
-
 }

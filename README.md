@@ -6,15 +6,19 @@ Link to Assignment on Github: https://github.com/5004-SEA-Fa24-Geeng/bg-arena-pl
 
 How many hours did it take you to complete this assignment (estimate)?
 
+* 15 hours
+
 Did you collaborate with any other students/TAs/Professors? If so, tell us who and in what
 capacity.
 
-* one per row, add more if needed
-  
+* No, I worked alone.
+
 Did you use any external resources (you do not have to cite in class material)? (Cite them below)
 
-* one row per resource
-
+* https://stackoverflow.com/questions/7520432/what-is-the-difference-between-and-equals-in-java
+* https://www.geeksforgeeks.org/difference-between-list-and-set-in-java/
+* https://www.ethnologue.com/
+* https://winsell-translation.com/blog/parker-s-embarrassment-with-translation-of-advertising
 
 (Optional) What was your favorite part of the assignment?
 

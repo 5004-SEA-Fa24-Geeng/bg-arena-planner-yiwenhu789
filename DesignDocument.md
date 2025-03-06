@@ -4,7 +4,7 @@
 This document is meant to provide a tool for you to demonstrate the design process. You need to work on this before you code, and after have a finished product. That way you can compare the changes, and changes in design are normal as you work through a project. It is contrary to popular belief, but we are not perfect our first attempt. We need to iterate on our designs to make them better. This document is a tool to help you do that.
 
 
-## (INITIAL DESIGN): Class Diagram 
+## (INITIAL DESIGN): Class Diagram
 
 Place your class diagrams below. Make sure you check the file in the browser on github.com to make sure it is rendering correctly. If it is not, you will need to fix it. As a reminder, here is a link to tools that can help you create a class diagram: [Class Resources: Class Design Tools](https://github.com/CS5004-khoury-lionelle/Resources?tab=readme-ov-file#uml-design-tools)
 
@@ -28,7 +28,7 @@ classDiagram
         +filter(String filter, GameData sortOn, boolean ascending)
         +reset()
     }
-    
+
     class BoardGame {
         -String name
         -int minPlayers
@@ -41,7 +41,7 @@ classDiagram
         -int year
         +toStringWithInfo(GameData col) : String
     }
-    
+
     class GameData {
         <<enumeration>>
         +NAME
@@ -76,11 +76,11 @@ classDiagram
         +addToList(String str, Stream<BoardGame> filtered)
         +removeFromList(String str)
     }
-    
+
     class GamesLoader {
         +loadGamesFile(String filename) : Set<BoardGame>
     }
-    
+
     class Operations {
         <<enumeration>>
         +GREATER_EQUAL
@@ -90,13 +90,13 @@ classDiagram
         +APPROX_EQUAL
         +getOperatorFromStr(String op) : Operations
     }
-    
+
     class ConsoleApp {
         +processFilter()
         +processListCommands()
         +processHelp()
     }
-    
+
     BGArenaPlanner --> Planner
     Planner --> BoardGame
     BoardGame --> GameData
@@ -113,7 +113,7 @@ classDiagram
 
 ### Your Plans/Design
 
-Create a class diagram for the classes you plan to create. This is your initial design, and it is okay if it changes. Your starting points are the interfaces. 
+Create a class diagram for the classes you plan to create. This is your initial design, and it is okay if it changes. Your starting points are the interfaces.
 
 I plan to use the existing interfaces and classes without adding new ones because they already cover all needed functions. `Planner` handles filtering, `GameList` manages the game list, and `GamesLoader` loads data. `ConsoleApp` manages user input. Since these classes already do their jobs well, no extra classes are needed. If the project gets more complex later, I can adjust the design.
 
@@ -121,7 +121,7 @@ I plan to use the existing interfaces and classes without adding new ones becaus
 
 ## (INITIAL DESIGN): Tests to Write - Brainstorm
 
-Write a test (in english) that you can picture for the class diagram you have created. This is the brainstorming stage in the TDD process. 
+Write a test (in english) that you can picture for the class diagram you have created. This is the brainstorming stage in the TDD process.
 
 > [!TIP]
 > As a reminder, this is the TDD process we are following:
@@ -131,7 +131,7 @@ Write a test (in english) that you can picture for the class diagram you have cr
 > 4. Refactor/update  as you go along
 > 5. Repeat steps 2-4 until you have all the tests passing/fully built program
 
-You should feel free to number your brainstorm. 
+You should feel free to number your brainstorm.
 
 1. Test filtering by minimum players (minPlayers>2).
 2. Test filtering by maximum players (maxPlayers<6).
@@ -145,19 +145,123 @@ You should feel free to number your brainstorm.
 10. Test Sorting by Difficulty (Ascending)
 11. Test Sorting by Difficulty (Descending)
 
-
+I will work on Game List test later on next phase.
 
 ## (FINAL DESIGN): Class Diagram
 
-Go through your completed code, and update your class diagram to reflect the final design. Make sure you check the file in the browser on github.com to make sure it is rendering correctly. It is normal that the two diagrams don't match! Rarely (though possible) is your initial design perfect. 
+Go through your completed code, and update your class diagram to reflect the final design. Make sure you check the file in the browser on github.com to make sure it is rendering correctly. It is normal that the two diagrams don't match! Rarely (though possible) is your initial design perfect.
 
-For the final design, you just need to do a single diagram that includes both the original classes and the classes you added. 
+For the final design, you just need to do a single diagram that includes both the original classes and the classes you added.
 
 > [!WARNING]
 > If you resubmit your assignment for manual grading, this is a section that often needs updating. You should double check with every resubmit to make sure it is up to date.
+```mermaid
+classDiagram
+    class BGArenaPlanner {
+        +main(String[] args) : void
+    }
 
+    class IPlanner {
+        <<interface>>
+        + reset() : void
+        + filter(String filter) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn, boolean ascending) : Stream<BoardGame>
+    }
 
+    class Planner {
+        - Set<BoardGame> allGames
+        - Set<BoardGame> filteredGames
+        + Planner(Set<BoardGame> games)
+        + reset() : void
+        + filter(String filter) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn) : Stream<BoardGame>
+        + filter(String filter, GameData sortOn, boolean ascending) : Stream<BoardGame>
+        + getFilteredGames() : Set<BoardGame>
+        - Stream<BoardGame> filterOnce(String filter, Stream<BoardGame> filteredGames)
+        - boolean applyFilter(BoardGame game, GameData column, Operations operator, String value)
+        - boolean operatorCompare(double val1, double val2, Operations operator)
+        - int compareGames(BoardGame game1, BoardGame game2, GameData sortOn)
+    }
 
+    class BoardGame {
+        - String name
+        - int id
+        - int minPlayers
+        - int maxPlayers
+        - int minPlayTime
+        - int maxPlayTime
+        - double difficulty
+        - int rank
+        - double averageRating
+        - int yearPublished
+        + equals(Object obj) : boolean
+    }
+
+    class GameData {
+        <<enum>>
+        + NAME
+        + MIN_PLAYERS
+        + MAX_PLAYERS
+        + MIN_TIME
+        + MAX_TIME
+        + DIFFICULTY
+        + RANK
+        + RATING
+        + YEAR
+        + getColumnName() : String
+        + fromString(String column) : GameData
+    }
+
+    class Operations {
+        <<enum>>
+        + EQUALS
+        + GREATER_THAN
+        + LESS_THAN
+        + GREATER_THAN_EQUAL
+        + LESS_THAN_EQUAL
+        + NOT_EQUAL
+        + CONTAINS
+        + getOperator() : String
+        + getOperatorFromStr(String operator) : Operations
+    }
+
+    class IGameList {
+        <<interface>>
+        + addToList(String str, Stream<BoardGame> filtered) : void
+        + getGameNames() : List<String>
+        + removeFromList(String str) : void
+        + saveGame(String filename) : void
+    }
+
+    class GameList {
+        - Set<BoardGame> games
+        + addToList(String str, Stream<BoardGame> filtered) : void
+        + getGameNames() : List<String>
+        + removeFromList(String str) : void
+        + saveGame(String filename) : void
+    }
+
+    class GamesLoader {
+        + loadGames(String filePath) : List<BoardGame>
+    }
+
+    class ConsoleApp {
+        + mainMenu() : void
+        + processUserInput(String input) : void
+    }
+
+    Planner --> IPlanner : implements
+    Planner --> BoardGame : manages
+    Planner --> GameData : uses
+    Planner --> Operations : uses
+    BGArenaPlanner --> Planner : uses
+    GameList --> IGameList : implements
+    GameList --> BoardGame : contains
+    ConsoleApp --> Planner : uses
+    ConsoleApp --> GameList : uses
+    GamesLoader --> BoardGame : loads
+```
 
 
 ## (FINAL DESIGN): Reflection/Retrospective
@@ -165,4 +269,8 @@ For the final design, you just need to do a single diagram that includes both th
 > [!IMPORTANT]
 > The value of reflective writing has been highly researched and documented within computer science, from learning to information to showing higher salaries in the workplace. For this next part, we encourage you to take time, and truly focus on your retrospective.
 
-Take time to reflect on how your design has changed. Write in *prose* (i.e. do not bullet point your answers - it matters in how our brain processes the information). Make sure to include what were some major changes, and why you made them. What did you learn from this process? What would you do differently next time? What was the most challenging part of this process? For most students, it will be a paragraph or two. 
+Take time to reflect on how your design has changed. Write in *prose* (i.e. do not bullet point your answers - it matters in how our brain processes the information). Make sure to include what were some major changes, and why you made them. What did you learn from this process? What would you do differently next time? What was the most challenging part of this process? For most students, it will be a paragraph or two.
+
+One of the major changes I made was implementing private methods to better organize comparisons when filtering. This separation of logic into independent private methods helped prevent interference from other parts of the code, making debugging much easier by allowing me to pinpoint issues more efficiently.
+
+Additionally, I implemented `Planner` before `GameList`. After completing `GameList`, I realized that I could adjust `Planner` based on it. However, the designs of these two classes were not entirely compatible, making it challenging to refactor them together. In the end, I decided to maintain the original structure and keep these two classes separate. Next time, I would consider dependencies earlier in the design process, which could save time in later implementation stages.
