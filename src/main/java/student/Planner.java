@@ -110,7 +110,7 @@ public class Planner implements IPlanner {
         }
 
         String value = parts[1];
-
+        System.out.println(parts[0] + " " + parts[1]);
         return filteredGames.filter(game -> applyFilter(game, column, operator, value));
     }
 
@@ -125,21 +125,34 @@ public class Planner implements IPlanner {
                 String gameName = game.getName().toLowerCase();
                 gameName = gameName.replaceAll(" ", "");
                 value = value.toLowerCase();
+                int comparison = gameName.compareToIgnoreCase(value);
                 // System.out.println("Checking if \"" + gameName + "\" contains \"" + value + "\"");
 
-                if (operator == Operations.CONTAINS) {
-                    return gameName.contains(value);
-                }
-                if (operator == Operations.EQUALS) {
-                    return gameName.equals(value);
-                }
 
-                return true; // Ignore invalid operations for strings
+                switch (operator) {
+                    case CONTAINS:
+                        return gameName.contains(value);
+                    case EQUALS:
+                        return gameName.equals(value);
+                    case NOT_EQUALS:
+                        return !gameName.equals(value);
+                    case GREATER_THAN:
+                        return comparison > 0;
+                    case LESS_THAN:
+                        return comparison < 0;
+                    case GREATER_THAN_EQUALS:
+                        return comparison >= 0;
+                    case LESS_THAN_EQUALS:
+                        return comparison <= 0;
+                    default:
+                        return true;
+                }
             }
 
             // HANDLE NUMERIC COMPARISONS (==, !=, >, <, >=, <=)
             // Convert value to double
             double numericValue = Double.parseDouble(value);
+
 
             // HANDLE NUMERIC COMPARISONS (Cast int fields to double)
             switch (column) {
