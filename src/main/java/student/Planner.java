@@ -124,7 +124,8 @@ public class Planner implements IPlanner {
             if (column == GameData.NAME) {
                 String gameName = game.getName().toLowerCase();
                 gameName = gameName.replaceAll(" ", "");
-                System.out.println("Checking if \"" + gameName + "\" contains \"" + value + "\"");
+                value = value.toLowerCase();
+                // System.out.println("Checking if \"" + gameName + "\" contains \"" + value + "\"");
 
                 if (operator == Operations.CONTAINS) {
                     return gameName.contains(value);
