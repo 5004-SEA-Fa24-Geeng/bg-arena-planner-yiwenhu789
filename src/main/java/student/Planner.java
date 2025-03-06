@@ -123,13 +123,16 @@ public class Planner implements IPlanner {
         try {
             // Handle Name Case
             if (column == GameData.NAME) {
+                System.out.println("Name testing " + value);
                 if (operator == Operations.CONTAINS) {
+                    System.out.println("Contains testing " + game.getName());
                     // Only applies to string-based NAME filter
                     return game.getName().trim().toLowerCase().contains(value.toLowerCase());
                 }
 
                 if (operator == Operations.EQUALS) {
-                    return game.getName().toLowerCase().equals(value.toLowerCase());
+                    System.out.println("Equals testing " + game.getName());
+                    return game.getName().trim().toLowerCase().equals(value.toLowerCase());
                 }
 
                 // Ignore contains operation for non-string fields
