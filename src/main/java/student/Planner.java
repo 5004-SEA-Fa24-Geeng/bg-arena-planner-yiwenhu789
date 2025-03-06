@@ -110,7 +110,6 @@ public class Planner implements IPlanner {
         }
 
         String value = parts[1];
-        System.out.println(parts[0] + " " + parts[1]);
         return filteredGames.filter(game -> applyFilter(game, column, operator, value));
     }
 
@@ -126,8 +125,6 @@ public class Planner implements IPlanner {
                 gameName = gameName.replaceAll(" ", "");
                 value = value.toLowerCase();
                 int comparison = gameName.compareToIgnoreCase(value);
-                // System.out.println("Checking if \"" + gameName + "\" contains \"" + value + "\"");
-
 
                 switch (operator) {
                     case CONTAINS:
@@ -153,7 +150,6 @@ public class Planner implements IPlanner {
             // Convert value to double
             double numericValue = Double.parseDouble(value);
 
-
             // HANDLE NUMERIC COMPARISONS (Cast int fields to double)
             switch (column) {
                 case RANK:
@@ -173,10 +169,10 @@ public class Planner implements IPlanner {
                 case DIFFICULTY:
                     return operatorCompare(game.getDifficulty(), numericValue, operator);
                 default:
-                    return true; // Ignore unsupported filters
+                    return true;
             }
         } catch (NumberFormatException e) {
-            return true; // Ignore if value is not a valid number
+            return true;
         }
     }
 
@@ -195,7 +191,7 @@ public class Planner implements IPlanner {
             case LESS_THAN_EQUALS:
                 return val1 <= val2;
             default:
-                return true; // Ignore invalid cases
+                return true;
         }
     }
 
