@@ -12,15 +12,20 @@ import java.util.stream.Stream;
 public class Planner implements IPlanner {
 
     /**
-     * Original full dataset
+     * Original full dataset.
      */
     private final Set<BoardGame> allGames;
 
     /**
-     * Current filtered games
+     * Current filtered games.
      */
     private Set<BoardGame> filteredGames;
 
+    /**
+     * Constructs a Planner with a given set of board games.
+     *
+     * @param games The set of all board games to be managed.
+     */
     public Planner(Set<BoardGame> games) {
         // TODO Auto-generated method stub
         this.allGames = new HashSet<>(games);
@@ -74,6 +79,11 @@ public class Planner implements IPlanner {
         this.filteredGames = new HashSet<>(allGames);
     }
 
+    /**
+     * Retrieves the current set of filtered board games.
+     *
+     * @return A new set containing the filtered board games.
+     */
     public Set<BoardGame> getFilteredGames() {
         return new HashSet<>(filteredGames);
     }
@@ -106,7 +116,9 @@ public class Planner implements IPlanner {
     }
 
     private boolean applyFilter(BoardGame game, GameData column, Operations operator, String value) {
-        if (column == GameData.ID) return true;
+        if (column == GameData.ID) {
+            return true;
+        }
 
         try {
             // Handle Name Case

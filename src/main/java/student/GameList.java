@@ -3,6 +3,11 @@ package student;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,12 +58,19 @@ public class GameList implements IGameList {
 
         List<String> gameNames = getGameNames(); // Get sorted list of game names
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (String gameName : gameNames) {
-                writer.write(gameName);
-                writer.newLine();
-            }
+        try {
+            // Ensure parent directories exist
+            Path filePath = Paths.get(filename);
+            Files.createDirectories(filePath.getParent()); // Creates "temp/" if missing
 
+            // Open file safely and overwrite existing content
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8,
+                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                for (String gameName : gameNames) {
+                    writer.write(gameName);
+                    writer.newLine();
+                }
+            }
         } catch (IOException e) {
             throw new RuntimeException("Error writing to file: " + filename, e);
         }
