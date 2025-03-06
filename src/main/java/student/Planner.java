@@ -50,10 +50,12 @@ public class Planner implements IPlanner {
         Set<BoardGame> filteredSet = new HashSet<>(filteredGames);
 
         // Apply filters if any
-        if (filter != null && !filter.trim().isEmpty()) {
+        if (filter != null) {
+            // Remove spaces for consistency
+            filter = filter.replaceAll(" ", "");
             String[] conditions = filter.split(",");
             for (String condition : conditions) {
-                filteredSet = filterOnce(condition.trim(), filteredSet.stream()).collect(Collectors.toSet());
+                filteredSet = filterOnce(condition, filteredSet.stream()).collect(Collectors.toSet());
             }
         }
 
@@ -94,9 +96,6 @@ public class Planner implements IPlanner {
             return filteredGames;
         }
 
-        // Remove spaces for consistency
-        filter = filter.replaceAll(" ", "");
-
         // Split filter string by the operator
         String[] parts = filter.split(operator.getOperator());
         if (parts.length != 2) {
@@ -110,8 +109,7 @@ public class Planner implements IPlanner {
             return filteredGames;
         }
 
-        System.out.println("Checking if \"" + column + "\" contains \"" + parts[1] + "\"");
-        String value = parts[1].trim();
+        String value = parts[1];
 
         return filteredGames.filter(game -> applyFilter(game, column, operator, value));
     }
@@ -124,17 +122,15 @@ public class Planner implements IPlanner {
         try {
             // Handle Name Case
             if (column == GameData.NAME) {
-                String gameName = game.getName().trim().toLowerCase();
-                String filterValue = value.trim().toLowerCase();
-
-                System.out.println("Checking if \"" + gameName + "\" contains \"" + filterValue + "\"");
+                String gameName = game.getName().toLowerCase();
+                gameName = gameName.replaceAll(" ", "");
+                System.out.println("Checking if \"" + gameName + "\" contains \"" + value + "\"");
 
                 if (operator == Operations.CONTAINS) {
-                    return gameName.contains(filterValue);
+                    return gameName.contains(value);
                 }
-
                 if (operator == Operations.EQUALS) {
-                    return gameName.equals(filterValue);
+                    return gameName.equals(value);
                 }
 
                 return true; // Ignore invalid operations for strings
