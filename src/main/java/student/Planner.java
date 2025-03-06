@@ -125,7 +125,7 @@ public class Planner implements IPlanner {
             if (column == GameData.NAME) {
                 if (operator == Operations.CONTAINS) {
                     // Only applies to string-based NAME filter
-                    return game.getName().toLowerCase().contains(value.toLowerCase());
+                    return game.getName().trim().toLowerCase().contains(value.toLowerCase());
                 }
 
                 if (operator == Operations.EQUALS) {
